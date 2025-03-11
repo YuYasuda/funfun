@@ -26,7 +26,7 @@
 
 
         <div class="mypage-icon">
-            <a><img src="${pageContext.request.contextPath}/images/IMG/myinformation_icon.png" alt="登録情報確認・変更・退会"></a>
+            <a href="RedirectToRegiChangeServlet"><img src="${pageContext.request.contextPath}/images/IMG/myinformation_icon.png" alt="登録情報確認・変更・退会"></a>
             <a><img src="${pageContext.request.contextPath}/images/IMG/history_icon.png" alt="購入履歴"></a>
             <a><img src="${pageContext.request.contextPath}/images/IMG/favourite_icon.png" alt="お気に入り一覧"></a>
         </div>

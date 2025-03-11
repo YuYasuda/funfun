@@ -18,16 +18,6 @@ navItems.forEach(item => {
 });
 //ナビゲーションバーここまで
 
-
-// ハンバーガーメニューのトグル
-const menuToggle = document.getElementById('menu-toggle');
-const nav = document.querySelector('.mobile-nav');
-
-menuToggle.addEventListener('click', () => {
-    nav.classList.toggle('active');
-});
-
-
 //会員登録変更の入力
 document.addEventListener('DOMContentLoaded', function () {
 if (document.body.classList.contains('register')) {
@@ -145,34 +135,62 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   });
   
-  //bodyにindexがある場合のみスライドショーを実行
-  let currentIndex = 0;
-  const slides = document.querySelectorAll('.slide');
-  const totalSlides = slides.length;
-  const slider = document.querySelector('.slider');
-  const prevBtn = document.querySelector('.prev-btn');
-  const nextBtn = document.querySelector('.next-btn');
-  
-  // 次のスライドを表示
-  function nextSlide() {
-    currentIndex = (currentIndex + 1) % totalSlides;
-    updateSlider();
+  // .slider-container クラスがある場合のみスライドショーを実行
+  if (document.querySelector('.slider-container')) {
+    let currentIndex = 0;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const slider = document.querySelector('.slider');
+    const prevBtn = document.querySelector('.prev-btn');
+    const nextBtn = document.querySelector('.next-btn');
+    
+    // スライドの総数とスライダーの設定を確認
+    console.log('Total slides:', totalSlides);
+    
+    // 次のスライドを表示
+    function nextSlide() {
+      currentIndex = (currentIndex + 1) % totalSlides;
+      console.log('Next slide:', currentIndex);
+      updateSlider();
+    }
+    
+    // 前のスライドを表示
+    function prevSlide() {
+      currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+      console.log('Previous slide:', currentIndex);
+      updateSlider();
+    }
+    
+    // スライドを更新
+    function updateSlider() {
+      console.log('Updating slider position');
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+      console.log('Transform:', slider.style.transform);
+    }
+    
+    // 自動スライド（3秒ごとに切り替え）
+    setInterval(nextSlide, 3000);
+    
+    // ボタンにクリックイベントを追加
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
   }
+
   
-  // 前のスライドを表示
-  function prevSlide() {
-    currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-    updateSlider();
-  }
-  
-  // スライドを更新
-  function updateSlider() {
-    slider.style.transform = `translateX(-${currentIndex * 100}%)`;
-  }
-  
-  // 自動スライド（3秒ごとに切り替え）
-  setInterval(nextSlide, 3000);
-  
-  // ボタンにクリックイベントを追加
-  nextBtn.addEventListener('click', nextSlide);
-  prevBtn.addEventListener('click', prevSlide);
+  // メニューアイテムのクリックイベント
+  // ハンバーガーメニューの開閉
+  const menuToggle = document.getElementById('menu-toggle');
+  const menuNav = document.querySelector('.menu-nav');
+  const menuItems = document.querySelectorAll('.menu-item');
+
+  // メニューの開閉
+  menuToggle.addEventListener('click', () => {
+    menuNav.classList.toggle('open');
+  });
+
+  // ドロップダウンの開閉
+  menuItems.forEach(item => {
+    item.querySelector('.dropdown-toggle').addEventListener('click', function() {
+      item.classList.toggle('active'); // ドロップダウンメニューの開閉
+    });
+  });

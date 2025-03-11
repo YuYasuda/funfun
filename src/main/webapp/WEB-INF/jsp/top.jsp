@@ -40,52 +40,104 @@
                 </div>
 
                 <div class="icon-container">
+                	<a href="${pageContext.request.contextPath}/SendEmailServlet">
                     <img src="${pageContext.request.contextPath}/images/IMG/mail_img.png" alt="お問い合わせ">
                     <p>問い合わせ</p>
+                    </a>
                 </div>
             </div>
-            <button class="search-btn">
-                <i class="search-icon"></i>
-                <span><a href="ProductSearchByQueryServlet">検索></span></a>
-            </button>
+                     <div class="search-container">
+                <input type="text" class="search-input" placeholder="検索" id="search-input">
+                <i class="fa fa-search search-icon" id="search-icon"></i> <!-- Font Awesomeの検索アイコン -->
+            </div>
         </div>
 
             </div>
-                                <!-- モバイル用ハンバーガーメニュー デスクトップでは非表示-->
-                                 <div class="menu-nav">
-        
-                                     <div class="hamburger-menu-container">
-                                        <div class="menu-toggle" id="menu-toggle">
-                                        <span class="bar"></span>
-                                        <span class="bar"></span>
-                                        <span class="bar"></span>
-                                        </div>
-                                    </div>
-                                    <nav class="mobile-nav">
-                                        <ul>
-                                        <li><a href="#">ログイン・会員登録</a></li>
-                                        <li><a href="#">買い物かご</a></li>
-                                        <li><a href="#">売上ランキング</a></li>
-                                        <li><a href="#">魚・水産</a></li>
-                                        <li><a href="#">肉</a></li>
-                                        <li><a href="#">果物・野菜</a></li>
-                                        <li><a href="#">米・麺</a></li>
-                                        <li><a href="#">加工品</a></li>
-                                        <li><a href="#">スイーツ</a></li>
-                                        <li><a href="#">飲料</a></li>
-                                        <li><a href="#">おきにいり</a></li>
-                                        <li><a href="#">マイページ</a></li>
-                                        <li><a href="#">お問い合わせ</a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
-                          
-                                <!-- モバイル用ハンバーガーメニュー ここまで-->   
 
-        </div>
+    
+<!-- モバイル用ハンバーガーメニュー デスクトップでは非表示-->
+<div class="menu-nav">
+  <div class="hamburger-menu-container">
+    <div class="menu-toggle" id="menu-toggle">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </div>
+  </div>
+  <nav class="mobile-nav">
+    <ul>
+      <li><a href="${pageContext.request.contextPath}/CategoryServlet">売上ランキング</a></li>
+      <li><a href="${pageContext.request.contextPath}/CartServlet">カート</a></li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">魚・水産</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=魚">魚</a></li>
+          <li><a href="CategoryServlet?type=甲殻類">甲殻類</a></li>
+          <li><a href="CategoryServlet?type=貝">貝類</a></li>
+          <li><a href="CategoryServlet?type=その他海産物">魚介その他</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">肉</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=牛肉">牛肉</a></li>
+          <li><a href="CategoryServlet?type=豚肉">豚肉</a></li>
+          <li><a href="CategoryServlet?type=鶏肉">鶏肉</a></li>
+          <li><a href="CategoryServlet?type=加工品・ソーセージ・ハム">加工品・ソーセージ・ハム</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">果物・野菜</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=果物">果物</a></li>
+          <li><a href="CategoryServlet?type=果物加工品">果物加工品</a></li>
+          <li><a href="CategoryServlet?type=野菜">野菜</a></li>
+          <li><a href="CategoryServlet?type=その他果物・野菜">果物その他</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">米・麺</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=米">米</a></li>
+          <li><a href="CategoryServlet?type=麺類">麺</a></li>
+          <li><a href="CategoryServlet?type=その他米・麺類">米麺その他</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">加工品</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=缶詰・瓶詰">缶詰・瓶詰</a></li>
+          <li><a href="CategoryServlet?type=冷凍食品">冷凍食品</a></li>
+          <li><a href="CategoryServlet?type=惣菜">惣菜</a></li>
+          <li><a href="CategoryServlet?type=その他加工品">加工品その他</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">スイーツ</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=洋菓子">洋菓子</a></li>
+          <li><a href="CategoryServlet?type=和菓子">和菓子</a></li>
+          <li><a href="CategoryServlet?type=アイスクリーム・氷菓子">アイスクリーム・氷菓</a></li>
+          <li><a href="CategoryServlet?type=その他スイーツ">スイーツその他</a></li>
+        </ul>
+      </li>
+      <li class="menu-item">
+        <span class="dropdown-toggle">飲料</span>
+        <ul class="dropdown-menu">
+          <li><a href="CategoryServlet?type=水・ミネラルウォーター">水・ミネラルウォーター</a></li>
+          <li><a href="CategoryServlet?type=コーヒー">コーヒー</a></li>
+          <li><a href="CategoryServlet?type=果物・野菜ジュース">果物・野菜ジュース</a></li>
+          <li><a href="CategoryServlet?type=その他飲み物">飲料その他</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>
+<!-- モバイル用ハンバーガーメニュー ここまで-->
 
-
-
+    
+                                  
+ 
 
         <nav class="navbar">
             <ul>
@@ -158,5 +210,5 @@
                 </li>
             </ul>
         </nav>
-       
+
     </header>

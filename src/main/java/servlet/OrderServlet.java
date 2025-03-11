@@ -75,7 +75,7 @@ public class OrderServlet extends HttpServlet {
             String shippingAddress1 = request.getParameter("shippingAddress1");
             String shippingAddress2 = request.getParameter("shippingAddress2");
             String phoneNumber = request.getParameter("phoneNumber");
-            String paymentMethod = request.getParameter("paymentMethod");
+            String paymentMethod = request.getParameter("payment-method");
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 conn.setAutoCommit(false); // トランザクション開始
@@ -92,6 +92,20 @@ public class OrderServlet extends HttpServlet {
                     pstmt.setString(7, phoneNumber);
                     pstmt.executeUpdate();
                 }
+                
+                // 1-1. shipping_address_id を取得する（最新のものを取得する例）
+                int shippingAddressId = -1;
+                String sqlGetShippingId = "SELECT shipping_address_id FROM shipping_address WHERE customer_id = ? ORDER BY shipping_created_at DESC LIMIT 1";
+                try (PreparedStatement pstmt = conn.prepareStatement(sqlGetShippingId)) {
+                    pstmt.setInt(1, customerId);
+                    try (ResultSet rs = pstmt.executeQuery()) {
+                        if (rs.next()) {
+                            shippingAddressId = rs.getInt("shipping_address_id");
+                        }
+                    }
+                }
+
+                CartSession cartSession = (CartSession) session.getAttribute("cartSession");
 
                 // **2. 注文情報を登録**
                 System.out.println("【OrderServlet】注文情報を登録します。");
@@ -99,7 +113,7 @@ public class OrderServlet extends HttpServlet {
                 String sqlOrder = "INSERT INTO orders_summary (customer_id, total_amount, total_items, payment_id, shipping_address_id,"
                 		+ " delivery_date, order_status) "
                 		+ "VALUES (?, ?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 5 DAY), ?)";
-
+                int orderId = -1;
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlOrder, PreparedStatement.RETURN_GENERATED_KEYS)) {
                     pstmt.setInt(1, customerId);
                     pstmt.setBigDecimal(2, cartSession.getTotal());
@@ -122,7 +136,6 @@ public class OrderServlet extends HttpServlet {
                 // **3. カートの商品を order_details に登録**
                 System.out.println("【OrderServlet】カートの商品を order_details に登録します。");
 
-                CartSession cartSession = (CartSession) session.getAttribute("cartSession");
                 if (cartSession != null && orderId > 0) {
                     String sqlOrderDetails = "INSERT INTO order_details (order_id, product_id, unit_price, quantity, subtotal) VALUES (?, ?, ?, ?, ?)";
                     try (PreparedStatement pstmt = conn.prepareStatement(sqlOrderDetails)) {

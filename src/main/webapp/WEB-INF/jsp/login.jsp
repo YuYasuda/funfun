@@ -37,7 +37,7 @@
             </div>
             <button type="submit" class="login-btn">ログイン</button>
             <div class="footer-links">
-                <a href="register.jsp">新規会員登録</a>
+                <a href="${pageContext.request.contextPath}/UserRegistrationServlet">新規会員登録</a>
             </div>
         </form>
     </div>

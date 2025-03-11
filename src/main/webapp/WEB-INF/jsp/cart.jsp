@@ -21,7 +21,12 @@
     </style>
 </head>
 <body>
-<jsp:include page="top.jsp" />
+    <!-- ヘッダーここから -->
+
+    <jsp:include page="top.jsp" />
+    <!-- ヘッダーここまで -->
+
+    <!-- メインここから -->
      
 <h2>${userId != null ? userId : "ゲスト."}様</h2>
 
@@ -56,14 +61,18 @@
        
     </table>
 
-           <div class="cart-actions">
-            <a href="${pageContext.request.contextPath}/OrderServlet"><button class="continue-shopping-btn">注文する</button>
-            </a>
-          </div>
+    <div class="cart-actions">
+        <a href="${pageContext.request.contextPath}/OrderServlet"><button class="continue-shopping-btn">注文する</button>
+        </a>
+    </div>
     <div class="cart-actions">
             <a href="<%= request.getContextPath() %>/ClearCartServlet"><button class="continue-shopping-btn">注文をキャンセル</button>
             </a>
-          </div>
+    </div>
+    <!-- メインここまで -->
+    <!-- JavaScriptファイルをリンク -->
+    <script src="js/script.js"></script> 
+
 
 </body>
 </html>

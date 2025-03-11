@@ -25,12 +25,28 @@
 
     <!-- メインここから -->
  
-    <main>
-        <div class="hero-img">
-        	<img src="${pageContext.request.contextPath}/images/IMG/hero_1.jpg" alt="hero">
-        </div>
 
-    <strong>今週のおすすめ</strong>
+    <main>
+ <div class="slider-container">
+  <div class="slider">
+    <div class="slide">
+      <img src="${pageContext.request.contextPath}/images/IMG/hero_1.jpg" alt="スライド1">
+    </div>
+    <div class="slide">
+      <img src="${pageContext.request.contextPath}/images/IMG/hero_2.jpg" alt="スライド2">
+    </div>
+    <div class="slide">
+      <img src="${pageContext.request.contextPath}/images/IMG/hero_3.jpg" alt="スライド3">
+    </div>
+  </div>
+  
+  <!-- スライダーのナビゲーションボタン -->
+  <button class="prev-btn">&#10094;</button>
+  <button class="next-btn">&#10095;</button>
+</div>
+
+
+    <strong></strong>
    
         <div class="recommend">
 	        <c:forEach var="product" items="${products}">
@@ -56,6 +72,8 @@
           
     </main>
     <!-- メインここまで -->
+        <!-- JavaScriptファイルをリンク -->
+    <script src="js/script.js"></script> 
     
 </body>
 </html>

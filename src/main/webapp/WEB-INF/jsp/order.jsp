@@ -102,15 +102,15 @@
                 <h2>決済方法</h2>
                 <div class="payment-options">
                     <div class="payment-option">
-                        <input type="radio" id="credit-card" name="payment-method" value="credit-card">
+                        <input type="radio" id="credit-card" name="payment-method" value="1">
                         <label for="credit-card">クレジットカード</label>
                     </div>
                     <div class="payment-option">
-                        <input type="radio" id="bank-transfer" name="payment-method" value="bank-transfer">
+                        <input type="radio" id="bank-transfer" name="payment-method" value="2">
                         <label for="bank-transfer">銀行振込</label>
                     </div>
                     <div class="payment-option">
-                        <input type="radio" id="cash-on-delivery" name="payment-method" value="cash-on-delivery">
+                        <input type="radio" id="cash-on-delivery" name="payment-method" value="3">
                         <label for="cash-on-delivery">代金引換</label>
                     </div>
                 </div>
