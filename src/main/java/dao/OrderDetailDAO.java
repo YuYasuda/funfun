@@ -35,7 +35,7 @@ public class OrderDetailDAO {
         
         // 注文がキャンセルされていないものを対象にしたSQLクエリ
         String sql = "SELECT p.product_id, p.product_name, p.price, p.image_url, SUM(od.quantity) AS total_quantity "
-                   +  "FROM order_detail od "
+                   +  "FROM order_details od "
                    +  "JOIN products p ON od.product_id = p.product_id "
                    +  "JOIN orders_summary os ON od.order_id = os.order_id "  // ordersテーブルと結合
                    +  "WHERE os.order_status != 'キャンセル' " // オーダーステータスがキャンセルでないものを対象
@@ -71,7 +71,7 @@ public class OrderDetailDAO {
         // 大分類カテゴリごとの販売数ランキングを取得
         String sql = "SELECT c.category_id, c.category_name, p.product_id, p.product_name, p.price, p.image_url, "
                    + "SUM(od.quantity) AS total_quantity "
-                   + "FROM order_detail od "
+                   + "FROM order_details od "
                    + "JOIN products p ON od.product_id = p.product_id "
                    + "JOIN product_categories pc ON p.product_id = pc.product_id "
                    + "JOIN categories c ON pc.category_id = c.category_id "

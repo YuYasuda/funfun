@@ -76,6 +76,12 @@ public class OrderServlet extends HttpServlet {
             String shippingAddress2 = request.getParameter("shippingAddress2");
             String phoneNumber = request.getParameter("phoneNumber");
             String paymentMethod = request.getParameter("payment-method");
+            
+
+            // デバッグ用
+            if (paymentMethod == null || paymentMethod.isEmpty()) {	
+                throw new ServletException("支払方法が正しく指定されていません。");
+            }
 
             try (Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD)) {
                 conn.setAutoCommit(false); // トランザクション開始
@@ -93,7 +99,7 @@ public class OrderServlet extends HttpServlet {
                     pstmt.executeUpdate();
                 }
                 
-                // 1-1. shipping_address_id を取得する（最新のものを取得する例）
+                // 1-1. shipping_address_id を取得する
                 int shippingAddressId = -1;
                 String sqlGetShippingId = "SELECT shipping_address_id FROM shipping_address WHERE customer_id = ? ORDER BY shipping_created_at DESC LIMIT 1";
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlGetShippingId)) {
@@ -107,22 +113,20 @@ public class OrderServlet extends HttpServlet {
 
                 CartSession cartSession = (CartSession) session.getAttribute("cartSession");
 
-                // **2. 注文情報を登録**
+                // **2. 注文情報を登録（order_summary）※PAYMENT_ID をセットせずに登録**
                 System.out.println("【OrderServlet】注文情報を登録します。");
 
-                String sqlOrder = "INSERT INTO orders_summary (customer_id, total_amount, total_items, payment_id, shipping_address_id,"
+                String sqlOrder = "INSERT INTO orders_summary (customer_id, total_amount, total_items, shipping_address_id,"
                 		+ " delivery_date, order_status) "
-                		+ "VALUES (?, ?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 5 DAY), ?)";
+                		+ "VALUES (?, ?, ?, ?, DATE_ADD(NOW(), INTERVAL 5 DAY), ?)";
                 int orderId = -1;
                 try (PreparedStatement pstmt = conn.prepareStatement(sqlOrder, PreparedStatement.RETURN_GENERATED_KEYS)) {
                     pstmt.setInt(1, customerId);
                     pstmt.setBigDecimal(2, cartSession.getTotal());
                     pstmt.setInt(3, cartSession.getItemsSize());
-                 // payment_id については、1:クレジット, 2:銀行振込, 3:代引き
-                    pstmt.setString(4, paymentMethod);
                  // shipping_address_id は、配送先情報のINSERT後に取得するか、別途処理
-                    pstmt.setInt(5, shippingAddressId);
-                    pstmt.setString(6, "受付済み");
+                    pstmt.setInt(4, shippingAddressId);
+                    pstmt.setString(5, "受付済み");
                     pstmt.executeUpdate();
 
                     // **注文IDを取得**
@@ -132,7 +136,35 @@ public class OrderServlet extends HttpServlet {
                         }
                     }
                 }
+                
+	             // 2-2. payment テーブルに注文情報を登録
+	             // payment_method は request の payment-method パラメータから取得（数字 1～3）
+                int paymentId = -1;
 
+	             String sqlPayment = "INSERT INTO payment (order_id, payment_date, payment_method_id, payment_status, remarks) VALUES (?, NOW(), ?, ?, ?)";
+	             try (PreparedStatement pstmt = conn.prepareStatement(sqlPayment, PreparedStatement.RETURN_GENERATED_KEYS)) {
+	                 pstmt.setInt(1, orderId);
+	                 pstmt.setInt(2, Integer.parseInt(paymentMethod)); // 例えば "1", "2", "3" の数字
+	                 pstmt.setString(3, "未決済"); // 初期状態など
+	                 pstmt.setString(4, ""); // 必要に応じて
+	                 pstmt.executeUpdate();
+	
+	                 // 生成された PAYMENT_ID を取得
+	                 try (ResultSet rs = pstmt.getGeneratedKeys()) {
+	                     if (rs.next()) {
+	                         paymentId = rs.getInt(1);
+	                     }
+	                 }
+	             }
+
+	             // 【2-3. order_summary の PAYMENT_ID を更新する】
+	             String sqlUpdateOrder = "UPDATE orders_summary SET payment_id = ? WHERE order_id = ?";
+	             try (PreparedStatement pstmt = conn.prepareStatement(sqlUpdateOrder)) {
+	                 pstmt.setInt(1, paymentId);
+	                 pstmt.setInt(2, orderId);
+	                 pstmt.executeUpdate();
+	             }
+	             
                 // **3. カートの商品を order_details に登録**
                 System.out.println("【OrderServlet】カートの商品を order_details に登録します。");
 
