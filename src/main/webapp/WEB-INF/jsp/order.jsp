@@ -81,19 +81,29 @@
                 <h2>送付先情報</h2>
                 <div class="info-item">
                     <label for="last-name">苗字:</label>
-                    <input type="text" id="last-name" name="last-name" placeholder="田中">
+                    <input type="text" id="last-name" name="shippingLastName" placeholder="田中">
                 </div>
                 <div class="info-item">
                     <label for="first-name">名前:</label>
-                    <input type="text" id="first-name" name="first-name" placeholder="太郎">
+                    <input type="text" id="first-name" name="shippingFirstName" placeholder="太郎">
                 </div>
                 <div class="info-item">
-                    <label for="address">住所:</label>
-                    <input type="text" id="address" name="address" placeholder="東京都新宿区西新宿1-1-1">
+                    <label for="post-code">郵便番号:</label>
+                    <input type="text" id="post-code" name="shippingPostCode" placeholder="123-1234">
                 </div>
+                
+                <div class="info-item">
+                    <label for="address1">住所:</label>
+                    <input type="text" id="address1" name="shippingAddress1" placeholder="東京都新宿区西新宿1-1-1">
+                </div>
+                <div class="info-item">
+                    <label for="address2">建物,階層, 部屋番号:</label>
+                    <input type="text" id="address2" name="shippingAddress2" placeholder="ファンビル3F 305号室">
+                </div>
+                
                 <div class="info-item">
                     <label for="phone">電話番号:</label>
-                    <input type="tel" id="phone" name="phone" placeholder="090-1234-5678">
+                    <input type="tel" id="phone" name="phoneNumber" placeholder="090-1234-5678">
                 </div>
             </section>
     
@@ -102,15 +112,15 @@
                 <h2>決済方法</h2>
                 <div class="payment-options">
                     <div class="payment-option">
-                        <input type="radio" id="credit-card" name="payment-method" value="1">
+                        <input type="radio" id="credit-card" name="paymentMethod" value="1">
                         <label for="credit-card">クレジットカード</label>
                     </div>
                     <div class="payment-option">
-                        <input type="radio" id="bank-transfer" name="payment-method" value="2">
+                        <input type="radio" id="bank-transfer" name="paymentMethod" value="2">
                         <label for="bank-transfer">銀行振込</label>
                     </div>
                     <div class="payment-option">
-                        <input type="radio" id="cash-on-delivery" name="payment-method" value="3">
+                        <input type="radio" id="cash-on-delivery" name="paymentMethod" value="3">
                         <label for="cash-on-delivery">代金引換</label>
                     </div>
                 </div>

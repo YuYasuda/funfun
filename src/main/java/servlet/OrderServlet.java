@@ -75,7 +75,7 @@ public class OrderServlet extends HttpServlet {
             String shippingAddress1 = request.getParameter("shippingAddress1");
             String shippingAddress2 = request.getParameter("shippingAddress2");
             String phoneNumber = request.getParameter("phoneNumber");
-            String paymentMethod = request.getParameter("payment-method");
+            String paymentMethod = request.getParameter("paymentMethod");
             
 
             // デバッグ用
